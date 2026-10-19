@@ -3,7 +3,7 @@ name: crossborder-data-compliance
 description: Cross-border data compliance gate (agent skill). Three-layer validation — target region regulation (versioned regulation library, conclusions traceable to a specific version) + data classification engine (auto-detects ID/biometric/payment/credential as sensitive; zero cross-border for sensitive data) + transmission link completeness (storage/encryption/charge/payment/tax, missing any is CRIT BLOCK), plus a dedicated cross-border charge/payment/tax check (charge-check), human final release (release with recorded reason), CleanKeeper undo, and bilingual compliance reports. Triggers: overseas check, cross-border compliance, data export, charge-check, register-region. Python 3.11+ standard library, no third-party dependencies.
 ---
 
-# Cross-border Data Compliance (lanzhi-crossborder) v2.0
+# Cross-border Data Compliance (crossborder-data-compliance) v2.0
 
 ## Overview
 
@@ -78,11 +78,11 @@ Overseas feature launch / cross-border data transfer
 
 - `assets/crossborder_rules.json`: tiers (versioned) / data classification / link requirements / charge_policy (recomputable, 0 hardcoding)
 - `assets/scripts/crossborder_check.py`: three-layer + classify + charge-check + dual-channel core
-- Records written to `%LOCALAPPDATA%\Lanzhi\crossborder\events\crossborder_events.csv` (16-column contract) and ingested into the audit log
+- Records written to `%LOCALAPPDATA%\AgentSkill\crossborder\events\crossborder_events.csv` (16-column contract) and ingested into the audit log
 
 ## Dual-channel interface (voice + click)
 
-- Wake word: "Lanzhi"; voice commands: "Lanzhi, overseas check <region> <data>" → submit; "Lanzhi, release cross-border <region> <reason>" → release
+- Wake word: "Crossborder"; voice commands: "Crossborder, overseas check <region> <data>" → submit; "Crossborder, release cross-border <region> <reason>" → release
 - Click entry: Overseas Center → Cross-border Compliance → start check / view records
 - Authorization consistent: voice ≡ click; unregistered region / link gap default BLOCK; human release needs operator confirmation with reason
 

@@ -1,6 +1,6 @@
 {
   "schema_version": "2.0",
-  "skill": "lanzhi-crossborder",
+  "skill": "crossborder-data-compliance",
   "description": "跨境数据合规规则库：法规库版本化 / 数据分类引擎 / 链路完整性 / 跨境收费支付税务校验（可复算，0 硬编码；开源版法规库为通用框架+示例）",
   "market_tiers": {
     "se-asia": {
@@ -216,7 +216,7 @@
     "redaction": "sensitive values never logged; classification only outputs label + basis"
   },
   "storage": {
-    "default_base_dir": "%LOCALAPPDATA%\\Lanzhi\\crossborder",
+    "default_base_dir": "%LOCALAPPDATA%\\AgentSkill\\crossborder",
     "fallback": "--base-dir"
   },
   "report": {

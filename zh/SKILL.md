@@ -1,9 +1,9 @@
 ---
-name: lanzhi-crossborder
+name: crossborder-data-compliance
 description: 跨境数据合规出海闸门（agent skill）。三层校验——目标地区法规（法规库版本化，结论可回溯到具体版本）+ 数据分类引擎（自动识别身份证/生物识别/支付/凭据为敏感，敏感数据零跨境）+ 传输链路完整性（存储/加密/收费/支付/税务，缺一 CRIT 拦截），另含跨境收费支付税务专项校验（charge-check）、人工终审放行（release 带原因留痕）、CleanKeeper 撤销（undo）与中英双语校验报告。触发词：出海检查、出海合规、跨境传输、数据出境、跨境合规、charge-check、register-region。Python 3.11+ 标准库无第三方依赖。
 ---
 
-# 本平台 · 跨境数据合规（lanzhi-crossborder）v2.0
+# 本平台 · 跨境数据合规（crossborder-data-compliance）v2.0
 
 ## 概述
 
@@ -78,7 +78,7 @@ description: 跨境数据合规出海闸门（agent skill）。三层校验—�
 
 - `assets/crossborder_rules.json`：两档市场（法规版本化）/ 数据分类引擎 / 链路要求 / charge_policy（可复算，0 硬编码）
 - `assets/scripts/crossborder_check.py`：三层校验 + classify + charge-check + 双通道接口核心脚本
-- `assets/results/` 或 `%LOCALAPPDATA%\Lanzhi\crossborder\`：校验结果记录（compliance.check / compliance.risk，汇入审计）
+- `assets/results/` 或 `%LOCALAPPDATA%\AgentSkill\crossborder\`：校验结果记录（compliance.check / compliance.risk，汇入审计）
 
 ## 事件汇入（审计日志 16 列契约）
 
@@ -94,7 +94,7 @@ description: 跨境数据合规出海闸门（agent skill）。三层校验—�
 ## 脚本规范
 
 - Python 3.11+ 标准库（无第三方依赖）
-- 校验结果写入 `%LOCALAPPDATA%\Lanzhi\crossborder\events\crossborder_events.csv`（16 列契约），并汇入审计
+- 校验结果写入 `%LOCALAPPDATA%\AgentSkill\crossborder\events\crossborder_events.csv`（16 列契约），并汇入审计
 - `--selftest` 自检：24 用例（旧 6 + 新 18）全绿
 
 ## 双通道触发规范（语音 + 点击，对齐《本平台7包双通道集成方案V1.0》）

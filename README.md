@@ -1,4 +1,4 @@
-# Cross-border Data Compliance (lanzhi-crossborder) v2.0
+# Cross-border Data Compliance (crossborder-data-compliance) v2.0
 
 A pre-departure compliance gate for cross-border data storage and transmission. Ensures data handling aligns with the target region's data protection laws.
 
@@ -16,7 +16,7 @@ A pre-departure compliance gate for cross-border data storage and transmission. 
 ## Structure
 
 ```
-lanzhi-crossborder/
+crossborder-data-compliance/
 ├── SKILL.md
 ├── README.md
 ├── LICENSE.md

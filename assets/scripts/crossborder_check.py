@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-本平台 · 跨境数据合规 (lanzhi-crossborder) — 核心脚本 v2.0
+本平台 · 跨境数据合规 (crossborder-data-compliance) — 核心脚本 v2.0
 
 出海前合规闸门：三层校验（目标地区法规 → 数据分类 → 传输链路）+ 跨境收费/支付/税务专项校验。
 首批两档市场：东南亚档 / 英语市场档；法规库版本化；数据分类引擎；CleanKeeper 撤销；双通道接口。
@@ -39,7 +39,7 @@ import re
 import sys
 from datetime import datetime, timezone
 
-SKILL_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))  # lanzhi-crossborder/
+SKILL_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))  # crossborder-data-compliance/
 RESULTS_DIR = os.path.join(SKILL_DIR, "assets", "results")
 RULES_PATH = os.path.join(SKILL_DIR, "assets", "crossborder_rules.json")
 
@@ -77,7 +77,7 @@ def hash_evidence(*parts):
 
 def default_base_dir():
     local = os.environ.get("LOCALAPPDATA") or os.path.expanduser("~")
-    return os.path.join(local, "Lanzhi", "crossborder")
+    return os.path.join(local, "AgentSkill", "crossborder")
 
 
 def resolve_base_dir(cli_base_dir, rules):
@@ -137,7 +137,7 @@ def write_event(base_dir, event):
 def _load_audit_core():
     """定位 ⑤ 审计底座 audit_core（内部依赖；开源版无则优雅跳过）。"""
     cands = []
-    env = os.environ.get("LANZHI_AUDIT_CORE")
+    env = os.environ.get("SKILLHUB_AUDIT_CORE")
     if env:
         cands.append(env)
     here = os.path.dirname(os.path.abspath(__file__))
@@ -650,7 +650,7 @@ def run_selftest():
         passed += 1 if ok else 0
         print(f"[{'PASS' if ok else 'FAIL'}] {desc}")
 
-    tmp = tempfile.mkdtemp(prefix="lanzhi_xb_st_")
+    tmp = tempfile.mkdtemp(prefix="crossborder_st_")
     base = os.path.join(tmp, "crossborder")
     ensure_dirs(base)
     all_links = ["存储", "加密", "收费", "支付", "税务"]
@@ -752,7 +752,7 @@ def run_selftest():
 
     # U6 存储默认解析
     rd = resolve_base_dir(None, rules)
-    check(rd.endswith(os.path.join("Lanzhi", "crossborder")), "U6 存储: 默认解析到 LOCALAPPDATA\\Lanzhi\\crossborder")
+    check(rd.endswith(os.path.join("AgentSkill", "crossborder")), "U6 存储: 默认解析到 LOCALAPPDATA\\AgentSkill\\crossborder")
 
     # 脱敏自检：事件 evidence_hash 仅指纹(16位)，0 敏感值
     check(len(ev["evidence_hash"]) == 16 and ev["note"] != ev.get("target", "") or True, "脱敏自检: evidence_hash 仅指纹(16位)")
@@ -842,7 +842,7 @@ def main():
     parser.add_argument("--links", help="已具备链路（逗号分隔：存储,加密,收费,支付,税务）")
     parser.add_argument("--charge", help="已具备跨境收费要素（逗号分隔：支付通道,资金结算,税务登记）")
     parser.add_argument("--override", help="管理员人工放行原因（顶层等价 release）")
-    parser.add_argument("--base-dir", dest="base_dir", help="存储根目录（默认 %LOCALAPPDATA%\\Lanzhi\\crossborder）")
+    parser.add_argument("--base-dir", dest="base_dir", help="存储根目录（默认 %LOCALAPPDATA%\\AgentSkill\\crossborder）")
     parser.add_argument("--selftest", action="store_true", help="运行自检")
 
     common = argparse.ArgumentParser(add_help=False)

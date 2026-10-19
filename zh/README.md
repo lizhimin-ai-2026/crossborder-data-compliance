@@ -1,4 +1,4 @@
-# 本平台 · 跨境数据合规 (lanzhi-crossborder) v2.0
+# 本平台 · 跨境数据合规 (crossborder-data-compliance) v2.0
 
 本平台安全智能体核心 Skill（P0 契约层）：为本系统出海版提供跨境数据合规支持，确保数据存储、传输符合目标地区法律法规。出海前合规闸门。
 
@@ -16,7 +16,7 @@
 ## 结构
 
 ```
-lanzhi-crossborder/
+crossborder-data-compliance/
 ├── SKILL.md                          # 技能说明（v2.0）
 ├── README.md
 ├── LICENSE.md
