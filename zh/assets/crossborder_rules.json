@@ -1,0 +1,244 @@
+{
+  "schema_version": "2.0",
+  "skill": "lanzhi-crossborder",
+  "description": "跨境数据合规规则库：法规库版本化 / 数据分类引擎 / 链路完整性 / 跨境收费支付税务校验（可复算，0 硬编码；开源版法规库为通用框架+示例）",
+  "market_tiers": {
+    "se-asia": {
+      "name": "东南亚档",
+      "requirements": [
+        "目标地区数据保护法规",
+        "本地化要求"
+      ],
+      "regions": [
+        {
+          "name": "新加坡",
+          "version": "PDPA-SG-YYYY",
+          "effective": "YYYY-MM-DD",
+          "source": "示例：新加坡个人数据保护法(PDPA)；请以官方最新公布版本为准"
+        },
+        {
+          "name": "泰国",
+          "version": "PDPA-TH-YYYY",
+          "effective": "YYYY-MM-DD",
+          "source": "示例：泰国个人数据保护法(PDPA)；请以官方最新公布版本为准"
+        }
+      ]
+    },
+    "english": {
+      "name": "英语市场档",
+      "requirements": [
+        "更高合规要求(GDPR类)",
+        "跨境支付/税务"
+      ],
+      "regions": [
+        {
+          "name": "欧洲",
+          "version": "GDPR-EU-YYYY",
+          "effective": "YYYY-MM-DD",
+          "source": "示例：欧盟通用数据保护条例(GDPR)；请以官方最新公布版本为准"
+        },
+        {
+          "name": "英国",
+          "version": "UK-GDPR-YYYY",
+          "effective": "YYYY-MM-DD",
+          "source": "示例：UK GDPR + 数据保护法案；请以官方最新公布版本为准"
+        }
+      ]
+    }
+  },
+  "data_classification": {
+    "types": [
+      "personal",
+      "business",
+      "sensitive"
+    ],
+    "policy": "传输前必须标注数据分类；敏感数据零跨境（除非合规评估通过 + 管理员确认）",
+    "sensitive_patterns": [
+      {
+        "id": "id_document",
+        "label": "身份证件号",
+        "keywords": [
+          "身份证",
+          "护照",
+          "id card",
+          "passport"
+        ],
+        "regex": "(?:\\d{17}[\\dXx]|[A-Z]{1,2}\\d{6,9})",
+        "basis": "身份证件号属高敏感个人数据，跨境须单独授权与加密"
+      },
+      {
+        "id": "biometric",
+        "label": "生物识别信息",
+        "keywords": [
+          "指纹",
+          "人脸",
+          "声纹",
+          "虹膜",
+          "biometric",
+          "face id"
+        ],
+        "regex": "",
+        "basis": "生物识别信息属敏感个人数据，跨境严禁未经评估"
+      },
+      {
+        "id": "payment",
+        "label": "支付信息",
+        "keywords": [
+          "银行卡",
+          "信用卡",
+          "支付账号",
+          "paypal",
+          "stripe",
+          "card number",
+          "cvv",
+          "支付密钥"
+        ],
+        "regex": "\\d{13,19}",
+        "basis": "支付卡号/支付密钥属金融敏感数据，跨境须 PCI-DSS 级保护"
+      },
+      {
+        "id": "credential",
+        "label": "账号凭据",
+        "keywords": [
+          "密码",
+          "token",
+          "secret",
+          "api key",
+          "私钥",
+          "口令"
+        ],
+        "regex": "",
+        "basis": "账号凭据属高敏感数据，跨境严禁明文传输"
+      }
+    ],
+    "personal_patterns": [
+      {
+        "id": "contact",
+        "label": "联系方式",
+        "keywords": [
+          "手机号",
+          "电话",
+          "邮箱",
+          "email",
+          "微信",
+          "whatsapp"
+        ],
+        "regex": "(?:1\\d{10}|[\\w.]+@[\\w.]+)",
+        "basis": "联系方式属个人数据，须标注后传输"
+      },
+      {
+        "id": "name",
+        "label": "姓名",
+        "keywords": [
+          "姓名",
+          "name",
+          "先生",
+          "女士"
+        ],
+        "regex": "",
+        "basis": "姓名属个人数据，须标注后传输"
+      }
+    ]
+  },
+  "link_requirements": [
+    "存储位置合规",
+    "传输加密",
+    "跨境收费合规",
+    "跨境支付合规",
+    "跨境税务合规"
+  ],
+  "link_spec": {
+    "存储位置合规": {
+      "required": true,
+      "critical": false,
+      "desc": "数据须存储在目标地区境内或经评估的合规境外节点，并标注境内/境外"
+    },
+    "传输加密": {
+      "required": true,
+      "critical": true,
+      "desc": "跨境传输必须 TLS 1.2+ 加密；未加密视为 CRIT 拦截"
+    },
+    "跨境收费合规": {
+      "required": true,
+      "critical": false,
+      "desc": "跨境收费须符合目标地区消费者权益与定价披露要求"
+    },
+    "跨境支付合规": {
+      "required": true,
+      "critical": false,
+      "desc": "支付通道须为目标地区可用支付服务商，资金结算合规"
+    },
+    "跨境税务合规": {
+      "required": true,
+      "critical": false,
+      "desc": "须完成目标地区税务登记/税号，依法申报"
+    }
+  },
+  "charge_policy": {
+    "source": "通用示例（请按目标地区现行法规与支付服务商条款核实）",
+    "selection_principle": "按目标地区可用性与合规性选择支付服务商；本包不做定价决策",
+    "payment_apis": {
+      "domestic": [
+        "<按目标地区选择>"
+      ],
+      "international": [
+        "<按目标地区选择>"
+      ]
+    },
+    "refund_policy": "按目标地区消费者权益要求设定，并在售卖页明确披露",
+    "tax": "目标地区税务登记/税号；依法申报",
+    "note": "本包只校验跨境收费/支付/税务合规面，不做定价决策；开源版不含任何定价细节"
+  },
+  "check_layers": {
+    "layer1": "目标地区法规（法规库版本化，校验结论可回溯到具体版本）",
+    "layer2": "数据分类（classify 自动识别 个人/业务/敏感）",
+    "layer3": "传输链路（存储+加密+收费/支付/税务，缺一 CRIT）"
+  },
+  "event_contract": {
+    "columns": [
+      "ts",
+      "source",
+      "event_type",
+      "actor",
+      "action",
+      "target",
+      "result",
+      "severity",
+      "rule_id",
+      "evidence_hash",
+      "ref_id",
+      "human_decision",
+      "undo_ref",
+      "note",
+      "status",
+      "schema_version"
+    ],
+    "redaction": "sensitive values never logged; classification only outputs label + basis"
+  },
+  "storage": {
+    "default_base_dir": "%LOCALAPPDATA%\\Lanzhi\\crossborder",
+    "fallback": "--base-dir"
+  },
+  "report": {
+    "languages": [
+      "zh",
+      "en"
+    ],
+    "group_by": [
+      "region",
+      "result"
+    ]
+  },
+  "undo": {
+    "backup_dir": ".trash",
+    "keep_last": 3,
+    "manifest": ".trash/manifest.json"
+  },
+  "audit": {
+    "source": "cross-border",
+    "ingest_event_types": [
+      "compliance.check",
+      "compliance.risk"
+    ]
+  }
+}
